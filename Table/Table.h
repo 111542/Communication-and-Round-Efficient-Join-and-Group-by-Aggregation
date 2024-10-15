@@ -551,16 +551,45 @@ void join(int role, int bitlen, int operation, crypto* crypt, LowMCParams& param
             E[i+nx] = Ey[i];
         }
         gettimeofday(&p0begin, 0);
+	  
+       // sort(&E[0], &E[nx+ny-1], cmp);
+        std::vector<std::pair<uint64_t, uint64_t>> indexed_values;
+        for (int i = 0; i < E.size(); ++i) {
+            indexed_values.push_back(std::make_pair(i, E[i]));
+        }
 
-        sort(&E[0], &E[nx+ny-1], cmp);
+    // 使用 std::sort 对索引进行排序，依据是数组中的值
+    std::sort(indexed_values.begin(), indexed_values.end(), compare);
+        
+        
+        
+        
+        
         gettimeofday(&p0end, 0);
+        cout<<"P0 kkkkkk time: "<<p0end.tv_sec-p0begin.tv_sec+(p0end.tv_usec-p0begin.tv_usec)*1e-6<<endl;
+
+        //int k = 0;
+        for(int i=0; i<nx+ny-2; i++){
+            if(indexed_values[i].second==indexed_values[i+1].second)
+                if(indexed_values[i].first < nx){
+                    ind1[k] = indexed_values[i].first;
+                    ind2[k] = indexed_values[i+1].first - nx;
+                }else{
+                    ind1[k] = indexed_values[i+1].first;
+                    ind2[k] = indexed_values[i].first - nx;
+                } 
+                k++;
+                
+        }
+        //sort(&E[0], &E[nx+ny-1], cmp);
+        /*gettimeofday(&p0end, 0);
         cout<<"P0 kkkkkk time: "<<p0end.tv_sec-p0begin.tv_sec+(p0end.tv_usec-p0begin.tv_usec)*1e-6<<endl;
 
         //int k = 0;
         for(int i=0; i<nx+ny-2; i++){
             if(E[i]==E[i+1])
                 k++;
-        }
+        }*/
         /*for(int i=0; i<nx; i++){
             for(int j=0; j<ny; j++){
                 //cout<<i<<"-"<<j<<endl;
