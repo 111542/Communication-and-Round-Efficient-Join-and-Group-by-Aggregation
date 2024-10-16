@@ -554,7 +554,7 @@ void join(int role, int bitlen, int operation, crypto* crypt, LowMCParams& param
 	  
        // sort(&E[0], &E[nx+ny-1], cmp);
         std::vector<std::pair<uint64_t, uint64_t>> indexed_values;
-        for (int i = 0; i < E.size(); ++i) {
+        for (int i = 0; i < nx+ny; ++i) {
             indexed_values.push_back(std::make_pair(i, E[i]));
         }
 
